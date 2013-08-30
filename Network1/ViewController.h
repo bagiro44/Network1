@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-
-@class XMLElement;
+#import "XMLElement.h"
 
 @interface ViewController : UIViewController <UITextFieldDelegate, CLLocationManagerDelegate, NSXMLParserDelegate>
 
@@ -20,9 +19,14 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *latitude;
 @property (weak, nonatomic) IBOutlet UITextField *longitude;
+@property (weak, nonatomic) IBOutlet UILabel *addressLine;
+@property (weak, nonatomic) IBOutlet UILabel *test;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tempLabel;
 
 @property NSString *latitudeString;
 @property NSString *longitudeString;
+@property NSString *cityName;
 
 @property XMLElement *rootElement;
 @property XMLElement *currentElementPointer;
