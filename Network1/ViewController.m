@@ -96,7 +96,7 @@
             self.latitudeString = self.latitude.text;
             self.longitudeString = self.longitude.text;        
         }
-        NSString *country =nil;
+        //NSString *country =nil;
         //запрос на получение наименования местности
         NSString *urlString = [NSString stringWithFormat:@"http://maps.googleapis.com/maps/api/geocode/xml?latlng=%@,%@&sensor=true", self.latitude.text, self.longitude.text];
         NSLog(@"%@", urlString);
@@ -105,153 +105,163 @@
         NSURLResponse *response;
         NSError *error;
         NSData *data = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&response error:&error];
-        //NSLog(@"Test: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-        self.forecastArray = nil;
-        if ([data length] >0 && error == nil)
+        if (error == NULL)
         {
-            NSData *xml = [[NSData alloc] initWithData:data];
-            self.parser = [[NSXMLParser alloc] initWithData:xml];
-            self.parser.delegate = self;
-            [self.parser parse];
-            self.view.userInteractionEnabled = YES;
-            self.addressLine.text = nil;
-            self.cityName = nil;
-            BOOL allDoneNow = NO;
-            BOOL isTrue = NO;
-            for (XMLElement *item in self.rootElement.subElement )
+            self.forecastArray = nil;
+            if ([data length] >0 && error == nil)
             {
-                if ([item.text isEqualToString:@"ZERO_RESULTS"])
+                NSData *xml = [[NSData alloc] initWithData:data];
+                self.parser = [[NSXMLParser alloc] initWithData:xml];
+                self.parser.delegate = self;
+                [self.parser parse];
+                
+                self.view.userInteractionEnabled = YES;
+                
+                self.addressLine.text = nil;
+                self.cityName = nil;
+                BOOL allDoneNow = NO;
+                BOOL isTrue = NO;
+                for (XMLElement *item in self.rootElement.subElement )
                 {
-                    //если гугл не знает что за местно
-                    UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Ошибка" message:@"Не удалось установить местоположение" delegate:nil cancelButtonTitle:@"ОК" otherButtonTitles: nil];
-                    [errorView show];
-                }else
-                {
-                    self.addressLine.text = [[[[self.rootElement.subElement objectAtIndex:1] subElement] objectAtIndex:1] text];
-                    NSString *country =nil;
-                    for (XMLElement *item in [[self.rootElement.subElement objectAtIndex:1] subElement] )
+                    if ([item.text isEqualToString:@"ZERO_RESULTS"])
                     {
-                        for (XMLElement *item1 in item.subElement)
+                        //если гугл не знает что за место
+                        UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Ошибка" message:@"Не удалось установить местоположение" delegate:nil cancelButtonTitle:@"ОК" otherButtonTitles: nil];
+                        [errorView show];
+                    }else
+                    {
+                        self.addressLine.text = [[[[self.rootElement.subElement objectAtIndex:1] subElement] objectAtIndex:1] text];
+                        NSString *country =nil;
+                        for (XMLElement *item in [[self.rootElement.subElement objectAtIndex:1] subElement] )
                         {
-                            if ([item1.name isEqualToString:@"long_name"] && isTrue == NO)
+                            for (XMLElement *item1 in item.subElement)
                             {
-                                self.cityName = item1.text;
+                                if ([item1.name isEqualToString:@"long_name"] && isTrue == NO)
+                                {
+                                    self.cityName = item1.text;
+                                }
+                                if ([item1.text isEqualToString:@"locality"])
+                                {
+                                    //NSLog(@"%@", self.cityName);
+                                    isTrue = YES;
+                                    break;
+                                }
+                                if ([item1.name isEqualToString:@"long_name"] && allDoneNow == NO)
+                                {
+                                    country = item1.text;
+                                }
+                                if ([item1.text isEqualToString:@"country"])
+                                {
+                                    //NSLog(@"%@", self.cityName);
+                                    allDoneNow = YES;
+                                    break;
+                                }
+                                
                             }
-                            if ([item1.text isEqualToString:@"locality"])
+                            if ((isTrue && allDoneNow) == YES) break;
+                        }
+                        
+                        
+                        NSURL  *url1 = [NSURL URLWithString:[[NSString stringWithFormat:@"http://xml.weather.co.ua/1.2/city/?search=%@", self.cityName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                        NSLog(@"%@", url1);
+                        urlRequest = [NSURLRequest requestWithURL:url1 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30.f];
+                        data = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&response error:&error];
+                        //NSLog(@"++++++++++++++++ %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+                        if ([data length] >0 && error == nil)
+                        {
+                            NSData *xml = [[NSData alloc] initWithData:data];
+                            self.parser = [[NSXMLParser alloc] initWithData:xml];
+                            self.parser.delegate = self;
+                            [self.parser parse];
+                            self.view.userInteractionEnabled = YES;
+                        }
+                        
+                        NSInteger *cityID = nil;
+                        for (XMLElement *item in [[self.rootElement.subElement objectAtIndex:0] subElement] )
+                        {
+                            
+                            if ([item.name isEqualToString:@"country"] && [item.text isEqualToString:(@"%@", country)])
                             {
-                                //NSLog(@"%@", self.cityName);
-                                isTrue = YES;
+                                cityID = [[item.parent.attributes objectForKey:@"id"] integerValue];
                                 break;
                             }
-                            if ([item1.name isEqualToString:@"long_name"] && allDoneNow == NO)
-                            {
-                                country = item1.text;
-                            }
-                            if ([item1.text isEqualToString:@"country"])
-                            {
-                                //NSLog(@"%@", self.cityName);
-                                allDoneNow = YES;
-                                break;
-                            }
-                         
                         }
-                        if ((isTrue && allDoneNow) == YES) break;
-                    }
-                 
-                 
-                    NSURL  *url1 = [NSURL URLWithString:[[NSString stringWithFormat:@"http://xml.weather.co.ua/1.2/city/?search=%@", self.cityName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-                    NSLog(@"%@", url1);
-                    urlRequest = [NSURLRequest requestWithURL:url1 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30.f];
-                    data = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&response error:&error];
-                    //NSLog(@"++++++++++++++++ %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-                    if ([data length] >0 && error == nil)
-                    {
-                        NSData *xml = [[NSData alloc] initWithData:data];
-                        self.parser = [[NSXMLParser alloc] initWithData:xml];
-                        self.parser.delegate = self;
-                        [self.parser parse];
-                        self.view.userInteractionEnabled = YES;
-                    }
-                 
-                    NSInteger cityID = nil;
-                    for (XMLElement *item in [[self.rootElement.subElement objectAtIndex:0] subElement] )
-                    {
-                     
-                        if ([item.name isEqualToString:@"country"] && [item.text isEqualToString:(@"%@", country)])
+                        
+                        NSURL  *url2 = [NSURL URLWithString:[[NSString stringWithFormat:@"http://xml.weather.co.ua/1.2/forecast/%ld?dayf=5&userid=&lang=ru", (long)cityID] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                        NSLog(@"%@", url2);
+                        urlRequest = [NSURLRequest requestWithURL:url2 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30.f];
+                        data = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&response error:&error];
+                        if ([data length] >0 && error == nil)
                         {
-                            cityID = [[item.parent.attributes objectForKey:@"id"] integerValue];
-                            break;
+                            NSData *xml = [[NSData alloc] initWithData:data];
+                            self.parser = [[NSXMLParser alloc] initWithData:xml];
+                            self.parser.delegate = self;
+                            [self.parser parse];
+                            self.view.userInteractionEnabled = YES;
                         }
-                    }
-                 
-                    NSURL  *url2 = [NSURL URLWithString:[[NSString stringWithFormat:@"http://xml.weather.co.ua/1.2/forecast/%ld?dayf=5&userid=&lang=ru", (long)cityID] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-                    NSLog(@"%@", url2);
-                    urlRequest = [NSURLRequest requestWithURL:url2 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30.f];
-                    data = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&response error:&error];
-                    if ([data length] >0 && error == nil)
-                    {
-                        NSData *xml = [[NSData alloc] initWithData:data];
-                        self.parser = [[NSXMLParser alloc] initWithData:xml];
-                        self.parser.delegate = self;
-                        [self.parser parse];
-                        self.view.userInteractionEnabled = YES;
-                    }
-
-                    self.forecastArray = [[NSMutableArray alloc] init];
-                    // NSLog(@"++++++++++++++++ %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-                    for (XMLElement *item in self.rootElement.subElement )
-                    {
-                        if ([item.text isEqualToString:@"CityID wrong or not found"])
+                        
+                        self.forecastArray = [[NSMutableArray alloc] init];
+                        // NSLog(@"++++++++++++++++ %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+                        for (XMLElement *item in self.rootElement.subElement )
                         {
-                            UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Ошибка" message:@"Для данной местности нет прогноза погоды..." delegate:nil cancelButtonTitle:@"ОК" otherButtonTitles: nil];
-                            [errorView show];
-                        }else
-                        {
-                            self.actualCityName.text = self.cityName;
-                            int i = 0;
-                            if ([[[self.rootElement.subElement objectAtIndex:2] name] isEqualToString:@"current"])
+                            if ([item.text isEqualToString:@"CityID wrong or not found"])
                             {
-                                i = 3;
-                                NSDate *date = [NSDate date];
-                                NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
-                                [dateFormat setDateFormat:@"dd.MM.YYYY"];
-                             
-                                self.actualTemp.text = [NSString stringWithFormat:@"%@", [[[[self.rootElement.subElement objectAtIndex:2] subElement] objectAtIndex:3] text]];
-                                self.actualPeopleTemp.text = [NSString stringWithFormat:@"%@", [[[[self.rootElement.subElement objectAtIndex:2] subElement] objectAtIndex:4] text]];
-                                self.mainForecastImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"_%@", [[[[self.rootElement.subElement objectAtIndex:2] subElement] objectAtIndex:2] text]] ];
-                                self.actualHum.text = [NSString stringWithFormat:@"%@", [[[[self.rootElement.subElement objectAtIndex:2] subElement] objectAtIndex:9] text]];
-                                self.actualPress.text = [NSString stringWithFormat:@"%@", [[[[self.rootElement.subElement objectAtIndex:2] subElement] objectAtIndex:5] text]];
-            
-                             
+                                UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Ошибка" message:@"Для данной местности нет прогноза погоды..." delegate:nil cancelButtonTitle:@"ОК" otherButtonTitles: nil];
+                                [errorView show];
                             }else
                             {
-                                i = 2;
+                                self.actualCityName.text = self.cityName;
+                                int i = 0;
+                                if ([[[self.rootElement.subElement objectAtIndex:2] name] isEqualToString:@"current"])
+                                {
+                                    i = 3;
+                                    //NSDate *date = [NSDate date];
+                                    NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
+                                    [dateFormat setDateFormat:@"dd.MM.YYYY"];
+                                    
+                                    self.actualTemp.text = [NSString stringWithFormat:@"%@", [[[[self.rootElement.subElement objectAtIndex:2] subElement] objectAtIndex:3] text]];
+                                    self.actualPeopleTemp.text = [NSString stringWithFormat:@"%@", [[[[self.rootElement.subElement objectAtIndex:2] subElement] objectAtIndex:4] text]];
+                                    self.mainForecastImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"_%@", [[[[self.rootElement.subElement objectAtIndex:2] subElement] objectAtIndex:2] text]] ];
+                                    self.actualHum.text = [NSString stringWithFormat:@"%@", [[[[self.rootElement.subElement objectAtIndex:2] subElement] objectAtIndex:9] text]];
+                                    self.actualPress.text = [NSString stringWithFormat:@"%@", [[[[self.rootElement.subElement objectAtIndex:2] subElement] objectAtIndex:5] text]];
+                                    
+                                    
+                                }else
+                                {
+                                    i = 2;
+                                }
+                                for (XMLElement *item in [[self.rootElement.subElement objectAtIndex:i] subElement])
+                                {
+                                    forecastClass *forecast = [[forecastClass alloc] init];
+                                    forecast.temp = [NSString stringWithFormat:@" %@ C", [[[[item.subElement objectAtIndex:3] subElement] objectAtIndex:0] text]];
+                                    forecast.date = [NSString stringWithFormat:@"%@   %@.00", [item.attributes objectForKey:@"date"], [item.attributes objectForKey:@"hour"]];
+                                    [self.forecastArray addObject:forecast];
+                                    
+                                }
+                                for (forecastClass *item in forecastArray)
+                                {
+                                    
+                                    
+                                }
                             }
-                            for (XMLElement *item in [[self.rootElement.subElement objectAtIndex:i] subElement])
-                            {
-                                forecastClass *forecast = [[forecastClass alloc] init];
-                                forecast.temp = [NSString stringWithFormat:@" %@ C", [[[[item.subElement objectAtIndex:3] subElement] objectAtIndex:0] text]];
-                                forecast.date = [NSString stringWithFormat:@"%@   %@.00", [item.attributes objectForKey:@"date"], [item.attributes objectForKey:@"hour"]];
-                                [self.forecastArray addObject:forecast];
-                             
-                            }
-                            for (forecastClass *item in forecastArray)
-                            {
-                            
-                     
-                            }
-                        }ы
+                            break;
+                        }
                         break;
                     }
-                    break;
                 }
             }
-    }
+        }else
+        {
+            UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Ошибка" message:@"Не удалось подключится к Интернет, проверьте подключение" delegate:nil cancelButtonTitle:@"ОК" otherButtonTitles: nil];
+            [errorView show];
+        }
+            
     }else
     {
         UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Ошибка" message:@"Не удалось установить местоположение, отключена служба геолокации для приложения" delegate:nil cancelButtonTitle:@"ОК" otherButtonTitles: nil];
         [errorView show];
     }
+    self.view.userInteractionEnabled = YES;
     [activityIndictor stopAnimating];
 }
 
@@ -299,15 +309,6 @@
 - (void) parserDidEndDocument:(NSXMLParser *)parser
 {
     self.currentElementPointer = nil;
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
-{
-    
-}
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
-{
-    
 }
 
 - (IBAction)setEditing:(id)sender
