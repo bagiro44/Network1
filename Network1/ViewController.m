@@ -212,9 +212,11 @@
                             {
                                 self.actualCityName.text = self.cityName;
                                 int i = 0;
-                                if ([[[self.rootElement.subElement objectAtIndex:2] name] isEqualToString:@"current"])
+                                int j = 0;
+                                if ([[[self.rootElement.subElement objectAtIndex:2] name] isEqualToString:@"current"] && [[[self.rootElement.subElement objectAtIndex:2] attributes] count] !=0 )
                                 {
-                                    i = 3;
+                                    i = 3; j = 0;
+                                    
                                     //NSDate *date = [NSDate date];
                                     NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
                                     [dateFormat setDateFormat:@"dd.MM.YYYY"];
@@ -228,21 +230,41 @@
                                     
                                 }else
                                 {
-                                    i = 2;
-                                }
-                                for (XMLElement *item in [[self.rootElement.subElement objectAtIndex:i] subElement])
-                                {
-                                    forecastClass *forecast = [[forecastClass alloc] init];
-                                    forecast.temp = [NSString stringWithFormat:@" %@ C", [[[[item.subElement objectAtIndex:3] subElement] objectAtIndex:0] text]];
-                                    forecast.date = [NSString stringWithFormat:@"%@   %@.00", [item.attributes objectForKey:@"date"], [item.attributes objectForKey:@"hour"]];
-                                    [self.forecastArray addObject:forecast];
+                                    if ([[[self.rootElement.subElement objectAtIndex:2] name] isEqualToString:@"current"])
+                                    {
+                                        i = 3; 
+                                        
+                                    }else
+                                    {
+                                        i = 2;
+                                    }
+                                    j = 4;
+                                    NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
+                                    [dateFormat setDateFormat:@"dd.MM.YYYY"];
+                                    
+                                    self.actualTemp.text = [NSString stringWithFormat:@"%@", [[[[[[[[self.rootElement.subElement objectAtIndex:i] subElement] objectAtIndex:0] subElement] objectAtIndex:3] subElement] objectAtIndex:0] text]];
+                                    self.actualPeopleTemp.text =  @"N/A";
+                                    self.mainForecastImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"_%@", [[[[[[self.rootElement.subElement objectAtIndex:i] subElement] objectAtIndex:0] subElement] objectAtIndex:1] text]] ];
+                                    self.actualHum.text = [NSString stringWithFormat:@"%@", [[[[[[[[self.rootElement.subElement objectAtIndex:i] subElement] objectAtIndex:0] subElement] objectAtIndex:6] subElement] objectAtIndex:0] text]];
+                                    self.actualPress.text = [NSString stringWithFormat:@"%@", [[[[[[[[self.rootElement.subElement objectAtIndex:i] subElement] objectAtIndex:0] subElement] objectAtIndex:4] subElement] objectAtIndex:0] text]];
                                     
                                 }
-                                for (forecastClass *item in forecastArray)
-                                {
-                                    
-                                    
-                                }
+                                NSMutableArray *dateArray = [[NSMutableArray alloc] initWithObjects:self.date1, self.date2, self.date3, self.date4, self.date5, nil];
+                                NSMutableArray *imageArray = [[NSMutableArray alloc] initWithObjects:self.image1, self.image2, self.image3, self.image4, self.image5, nil];
+                                NSMutableArray *tempArray = [[NSMutableArray alloc] initWithObjects:self.temp1, self.temp2, self.temp3, self.temp4, self.temp5, nil];
+                                int k = 0;
+                            for (int ii=j; ii<20; ii+=4)
+                            {
+                                XMLElement *item = [[XMLElement alloc] init];
+                                item = [[[[self.rootElement subElement] objectAtIndex:i] subElement] objectAtIndex:ii];
+                                [[dateArray objectAtIndex:k] setText:[item.attributes objectForKey:@"date"]];
+                                [[imageArray objectAtIndex:k] setImage:[UIImage imageNamed:[[item.subElement objectAtIndex:1] text]]];
+                                [[tempArray objectAtIndex:k] setText:[[[[item.subElement objectAtIndex:3] subElement] objectAtIndex:0] text ]];
+                                
+                                k++;
+                            }
+                             
+            
                             }
                             break;
                         }

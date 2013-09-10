@@ -31,6 +31,27 @@
 @property (weak, nonatomic) IBOutlet UILabel *actualPeopleTemp;
 @property (weak, nonatomic) IBOutlet UILabel *actualHum;
 
+@property (weak, nonatomic) IBOutlet UILabel *date1;
+@property (weak, nonatomic) IBOutlet UILabel *date2;
+@property (weak, nonatomic) IBOutlet UILabel *date3;
+@property (weak, nonatomic) IBOutlet UILabel *date4;
+@property (weak, nonatomic) IBOutlet UILabel *date5;
+
+@property (weak, nonatomic) IBOutlet UIImageView *image1;
+@property (weak, nonatomic) IBOutlet UIImageView *image2;
+@property (weak, nonatomic) IBOutlet UIImageView *image3;
+@property (weak, nonatomic) IBOutlet UIImageView *image4;
+@property (weak, nonatomic) IBOutlet UIImageView *image5;
+
+@property (weak, nonatomic) IBOutlet UILabel *temp1;
+@property (weak, nonatomic) IBOutlet UILabel *temp2;
+@property (weak, nonatomic) IBOutlet UILabel *temp3;
+@property (weak, nonatomic) IBOutlet UILabel *temp4;
+@property (weak, nonatomic) IBOutlet UILabel *temp5;
+
+
+
+
 - (IBAction)setEditing:(id)sender;
 
 
