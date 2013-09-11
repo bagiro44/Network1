@@ -259,7 +259,15 @@
                                 item = [[[[self.rootElement subElement] objectAtIndex:i] subElement] objectAtIndex:ii];
                                 [[dateArray objectAtIndex:k] setText:[item.attributes objectForKey:@"date"]];
                                 [[imageArray objectAtIndex:k] setImage:[UIImage imageNamed:[[item.subElement objectAtIndex:1] text]]];
-                                [[tempArray objectAtIndex:k] setText:[[[[item.subElement objectAtIndex:3] subElement] objectAtIndex:0] text ]];
+                                if ([[[[item.subElement objectAtIndex:3] subElement] objectAtIndex:0] text ] > 0)
+                                {
+                                    NSString *tempString = [NSString stringWithFormat:@"+ %@", [[[[item.subElement objectAtIndex:3] subElement] objectAtIndex:0] text ]];
+                                    [[tempArray objectAtIndex:k] setText:tempString];
+                                }else
+                                {
+                                    [[tempArray objectAtIndex:k] setText:[[[[item.subElement objectAtIndex:3] subElement] objectAtIndex:0] text]];
+                                }
+
                                 
                                 k++;
                             }
