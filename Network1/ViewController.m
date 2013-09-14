@@ -130,7 +130,15 @@
                         [errorView show];
                     }else
                     {
-                        self.addressLine.text = [[[[self.rootElement.subElement objectAtIndex:1] subElement] objectAtIndex:1] text];
+                        for (XMLElement *item in [[self.rootElement.subElement objectAtIndex:1] subElement])
+                        {
+                            if ([item.name isEqualToString:@"formatted_address"])
+                            {
+    
+                                self.addressLine.text = item.text;
+                            }
+                        }
+    
                         NSString *country =nil;
                         for (XMLElement *item in [[self.rootElement.subElement objectAtIndex:1] subElement] )
                         {
@@ -160,8 +168,10 @@
                             }
                             if ((isTrue && allDoneNow) == YES) break;
                         }
-                        
-                        
+                        NSString *reqexString = @"г. ";
+                        NSRegularExpression *reqex = [NSRegularExpression regularExpressionWithPattern:reqexString options:NSRegularExpressionCaseInsensitive error:&error];
+                        self.cityName = [reqex stringByReplacingMatchesInString:self.cityName options:0 range:NSMakeRange(0, [self.cityName length]) withTemplate:@""];
+                        NSLog(@"%@", self.cityName);
                         NSURL  *url1 = [NSURL URLWithString:[[NSString stringWithFormat:@"http://xml.weather.co.ua/1.2/city/?search=%@", self.cityName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
                         NSLog(@"%@", url1);
                         urlRequest = [NSURLRequest requestWithURL:url1 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30.f];
@@ -258,7 +268,7 @@
                                 XMLElement *item = [[XMLElement alloc] init];
                                 item = [[[[self.rootElement subElement] objectAtIndex:i] subElement] objectAtIndex:ii];
                                 [[dateArray objectAtIndex:k] setText:[item.attributes objectForKey:@"date"]];
-                                [[imageArray objectAtIndex:k] setImage:[UIImage imageNamed:[[item.subElement objectAtIndex:1] text]]];
+                                [[imageArray objectAtIndex:k] setImage:[UIImage imageNamed:[NSString stringWithFormat:@"_%@",[[item.subElement objectAtIndex:1] text]]]];
                                 if ([[[[item.subElement objectAtIndex:3] subElement] objectAtIndex:0] text ] > 0)
                                 {
                                     NSString *tempString = [NSString stringWithFormat:@"+ %@", [[[[item.subElement objectAtIndex:3] subElement] objectAtIndex:0] text ]];

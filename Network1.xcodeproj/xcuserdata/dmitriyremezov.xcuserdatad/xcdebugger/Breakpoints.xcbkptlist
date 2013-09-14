@@ -73,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Network1/ViewController.m"
-         timestampString = "400607015.327174"
+         timestampString = "400848431.582288"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "320"
-         endingLineNumber = "320"
+         startingLineNumber = "330"
+         endingLineNumber = "330"
          landmarkName = "-parser:didStartElement:namespaceURI:qualifiedName:attributes:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -86,24 +86,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Network1/ViewController.m"
-         timestampString = "400607015.327174"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "321"
-         endingLineNumber = "321"
-         landmarkName = "-parser:didStartElement:namespaceURI:qualifiedName:attributes:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Network1/ViewController.m"
-         timestampString = "400607015.327174"
+         timestampString = "400848431.582288"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "331"
          endingLineNumber = "331"
+         landmarkName = "-parser:didStartElement:namespaceURI:qualifiedName:attributes:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Network1/ViewController.m"
+         timestampString = "400848431.582288"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "341"
+         endingLineNumber = "341"
          landmarkName = "-parser:foundCharacters:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -112,11 +112,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Network1/ViewController.m"
-         timestampString = "400607015.327174"
+         timestampString = "400848431.582288"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "330"
-         endingLineNumber = "330"
+         startingLineNumber = "340"
+         endingLineNumber = "340"
          landmarkName = "-parser:foundCharacters:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -190,11 +190,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Network1/ViewController.m"
-         timestampString = "400607015.327174"
+         timestampString = "400848431.582288"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "348"
-         endingLineNumber = "348"
+         startingLineNumber = "358"
+         endingLineNumber = "358"
          landmarkName = "-setEditing:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -216,11 +216,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Network1/ViewController.m"
-         timestampString = "400492470.958348"
+         timestampString = "400848431.582288"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "240"
-         endingLineNumber = "240"
+         startingLineNumber = "250"
+         endingLineNumber = "250"
          landmarkName = "-showWeather"
          landmarkType = "5">
       </FileBreakpoint>
@@ -229,11 +229,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Network1/ViewController.m"
-         timestampString = "400486425.618396"
+         timestampString = "400848431.582288"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "205"
-         endingLineNumber = "205"
+         startingLineNumber = "215"
+         endingLineNumber = "215"
          landmarkName = "-showWeather"
          landmarkType = "5">
       </FileBreakpoint>
@@ -242,11 +242,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Network1/ViewController.m"
-         timestampString = "400492470.958348"
+         timestampString = "400848431.582288"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "214"
-         endingLineNumber = "214"
+         startingLineNumber = "224"
+         endingLineNumber = "224"
          landmarkName = "-showWeather"
          landmarkType = "5">
       </FileBreakpoint>
@@ -255,11 +255,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Network1/ViewController.m"
-         timestampString = "400492470.958348"
+         timestampString = "400848431.582288"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "216"
-         endingLineNumber = "216"
+         startingLineNumber = "226"
+         endingLineNumber = "226"
          landmarkName = "-showWeather"
          landmarkType = "5">
       </FileBreakpoint>
@@ -268,11 +268,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Network1/ViewController.m"
-         timestampString = "400495432.761551"
+         timestampString = "400848431.582288"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "258"
-         endingLineNumber = "258"
+         startingLineNumber = "268"
+         endingLineNumber = "268"
          landmarkName = "-showWeather"
          landmarkType = "5">
       </FileBreakpoint>
@@ -281,11 +281,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Network1/ViewController.m"
-         timestampString = "400495432.761551"
+         timestampString = "400848431.582288"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "259"
-         endingLineNumber = "259"
+         startingLineNumber = "269"
+         endingLineNumber = "269"
          landmarkName = "-showWeather"
          landmarkType = "5">
       </FileBreakpoint>
@@ -294,11 +294,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Network1/ViewController.m"
-         timestampString = "400603051.098979"
+         timestampString = "400848431.582288"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "262"
-         endingLineNumber = "262"
+         startingLineNumber = "272"
+         endingLineNumber = "272"
          landmarkName = "-showWeather"
          landmarkType = "5">
       </FileBreakpoint>
@@ -307,11 +307,37 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Network1/ViewController.m"
-         timestampString = "400603065.36026"
+         timestampString = "400848431.582288"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "261"
-         endingLineNumber = "261"
+         startingLineNumber = "271"
+         endingLineNumber = "271"
+         landmarkName = "-showWeather"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Network1/ViewController.m"
+         timestampString = "400846242.424873"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "109"
+         endingLineNumber = "109"
+         landmarkName = "-showWeather"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Network1/ViewController.m"
+         timestampString = "400848428.499405"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "174"
+         endingLineNumber = "174"
          landmarkName = "-showWeather"
          landmarkType = "5">
       </FileBreakpoint>
